@@ -34,7 +34,8 @@ def load_feeds():
             rss_feeds = file.read().splitlines()
         return rss_feeds
     except FileNotFoundError:
-        print("Could not find the file {}. Please check your file path.".format(RSS_FEED_FILE))
+        print("Could not find the file {}. Please check your file path."
+              .format(RSS_FEED_FILE))
         exit()
 
 def get_article(article_link):
@@ -114,22 +115,31 @@ def connect_db():
         print("Error connecting to DB: ",e)
         exit(1)
     return db_connection
+def fill_article_db(db_connection):
+    # load RSS feeds
+    rss_feeds = load_feeds()
+    # Make  the table if it doesnt exist
+    create_article_table(db_connection)
 
-db_connection = connect_db()
-# load RSS feeds
-rss_feeds = load_feeds()
-# Make  the table if it doesnt exist
-create_article_table(db_connection)
+    for feed in rss_feeds:
+        #Get all the links from a feed
+        article_links = get_article_links(feed)
 
-for feed in rss_feeds:
-    #Get all the links from a feed
-    article_links = get_article_links(feed)
+        for article_link in article_links:
+                #get the article frm a link
+               article = get_article(article_link)
+               #put the article in a database
+               insert_article(db_connection,article)
+    
+def main() :
+    #start the db conneciton
+    db_connection = connect_db()
 
-    for article_link in article_links:
-            #get the article frm a link
-           article = get_article(article_link)
-           #put the article in a database
-           insert_article(db_connection,article)
-           
-#close the connection to the DB
-db_connection.close()
+    #Fill the database`
+    fill_article_db(db_connection)
+
+    #close the connection to the DB
+    db_connection.close()
+
+if __name__ == "__main__":
+    main()
