@@ -19,6 +19,7 @@ def create_article_table(conn):
         title TEXT,
         author TEXT,
         content TEXT,
+        url TEXT,
         summary TEXT,
         pub_date DATE
     );
@@ -86,14 +87,15 @@ def insert_article(conn,article):
     try:
         cursor = conn.cursor()
         insert_query = '''
-        INSERT INTO articles (id,title ,author, content,summary, pub_date)
-        VALUES (?, ?, ?, ?, ?, ?)
+        INSERT INTO articles (id,title ,author, content,url, summary, pub_date)
+        VALUES (?, ?, ?, ?, ?, ?, ?)
         '''
         article_data = (
                     article_hash,
                     article.title, 
                     article_authors,
                     article.text, 
+                    article.url,
                     article.summary,
                     article.publish_date
                     )
