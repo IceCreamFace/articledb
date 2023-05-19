@@ -84,9 +84,6 @@ def insert_article(conn,article):
     else: 
         article_authors = article.authors[0]
     try:
-
-                
-
         cursor = conn.cursor()
         insert_query = '''
         INSERT INTO articles (id,title ,author, content,summary, pub_date)
@@ -107,16 +104,30 @@ def insert_article(conn,article):
     except sqlite3.Error as e:
         print("Error adding article: ",e)
 
+def connect_db():
+    # Create connection to sqlite
+    try:
+        db_connection = sqlite3.connect('articles.db')
+    except sqlite3.Error as e:
+        print("Error connecting to DB: ",e)
+        exit(1)
+    return db_connection
 
+db_connection = connect_db()
 # load RSS feeds
 rss_feeds = load_feeds()
-db_connection = sqlite3.connect('articles.db')
+# Make  the table if it doesnt exist
 create_article_table(db_connection)
 
 for feed in rss_feeds:
+    #Get all the links from a feed
     article_links = get_article_links(feed)
-    for article_link in article_links:
-           article = get_article(article_link)
-           insert_article(db_connection,article)
 
+    for article_link in article_links:
+            #get the article frm a link
+           article = get_article(article_link)
+           #put the article in a database
+           insert_article(db_connection,article)
+           
+#close the connection to the DB
 db_connection.close()
