@@ -1,0 +1,10 @@
+https://www.thecity.nyc/rss/index.xml
+https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml
+https://feeds.bbci.co.uk/news/rss.xml
+https://thehill.com/homenews/feed/
+https://feeds.a.dj.com/rss/RSSWorldNews.xml
+https://feeds.a.dj.com/rss/WSJcomUSBusiness.xml
+https://feeds.a.dj.com/rss/RSSMarketsMain.xml
+https://rss.nytimes.com/services/xml/rss/nyt/World.xml
+https://rss.nytimes.com/services/xml/rss/nyt/US.xml
+https://rss.nytimes.com/services/xml/rss/nyt/Economy.xml
